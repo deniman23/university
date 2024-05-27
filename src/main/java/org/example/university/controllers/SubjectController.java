@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/subjects")
@@ -28,11 +29,11 @@ public class SubjectController {
         return new ResponseEntity<>(subjectDto, HttpStatus.CREATED);
     }
 
-//    @PutMapping
-//    public ResponseEntity<TeacherDto> change(@RequestBody TeacherRequest teacherRequest) {
-//        TeacherDto updated = subjectService.change(teacherRequest);
-//        return ResponseEntity.ok().body(updated);
-//    }
+    @PutMapping
+    public ResponseEntity<SubjectDto> edit(@RequestBody SubjectRequest teacherRequest) {
+        SubjectDto updated = subjectService.edit(teacherRequest);
+        return ResponseEntity.ok().body(updated);
+    }
 //
 //    @DeleteMapping("/{id}")
 //    public ResponseEntity<?> terminate(@PathVariable UUID id) {
@@ -40,11 +41,11 @@ public class SubjectController {
 //        return ResponseEntity.ok().body("Employee terminated");
 //    }
 //
-//    @GetMapping("/{id}")
-//    public TeacherDto output(@PathVariable UUID id) {
-//        return subjectService.findById(id);
-//    }
-//
+    @GetMapping("/{id}")
+    public SubjectDto output(@PathVariable UUID id) {
+        return subjectService.findById(id);
+    }
+
     @GetMapping
     public List<SubjectDto> filter(SubjectFilter subjectFilter, Pageable pageable) {
         return subjectService.findAll(subjectFilter, pageable).getContent();
