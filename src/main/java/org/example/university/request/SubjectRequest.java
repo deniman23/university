@@ -5,7 +5,7 @@ import java.util.UUID;
 public class SubjectRequest {
     private UUID id;
     private String title;
-    private UUID teacherId;
+//    private UUID teacherId;
 
     public SubjectRequest() {
     }
@@ -26,11 +26,11 @@ public class SubjectRequest {
         this.title = title;
     }
 
-    public UUID getTeacherId() {
-        return teacherId;
-    }
-
-    public void setTeacherId(UUID teacherId) {
-        this.teacherId = teacherId;
-    }
+//    public UUID getTeacherId() {
+//        return teacherId;
+//    }
+//
+//    public void setTeacherId(UUID teacherId) {
+//        this.teacherId = teacherId;
+//    }
 }

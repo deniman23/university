@@ -10,6 +10,7 @@ public class StudentRequest {
     private String lastName;
     private String middleName;
     private Gender gender;
+    private UUID groupId;
 
     public StudentRequest() {
     }
@@ -52,5 +53,13 @@ public class StudentRequest {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public UUID getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(UUID groupId) {
+        this.groupId = groupId;
     }
 }

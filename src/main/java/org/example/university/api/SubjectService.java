@@ -43,9 +43,9 @@ public class SubjectService {
     public SubjectDto create(SubjectRequest subjectRequest){
         Subject subject = new Subject();
         subject.setTitle(subjectRequest.getTitle());
-        Teacher teacher = teacherServiceDao.findById(subjectRequest.getTeacherId())
-                .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with ID: " + subjectRequest.getTeacherId()));
-        subject.setTeacher(teacher);
+//        Teacher teacher = teacherServiceDao.findById(subjectRequest.getTeacherId())
+//                .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with ID: " + subjectRequest.getTeacherId()));
+//        subject.setTeacher(teacher);
         subject = subjectServiceDao.save(subject);
         return SubjectMapper.entityToDto(subject);
     }

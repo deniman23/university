@@ -19,7 +19,7 @@ public class Lesson {
 
     @NotBlank
     private String name;
-    private Instant dateTime;
+    private Instant creationDate;
 
     @ManyToOne
     @JoinColumn(name = "subject_id")
@@ -49,12 +49,12 @@ public class Lesson {
         this.name = name;
     }
 
-    public Instant getDateTime() {
-        return dateTime;
+    public Instant getCreationDate() {
+        return creationDate;
     }
 
-    public void setDateTime(Instant dateTime) {
-        this.dateTime = dateTime;
+    public void setCreationDate(Instant dateTime) {
+        this.creationDate = dateTime;
     }
 
     public Subject getSubject() {

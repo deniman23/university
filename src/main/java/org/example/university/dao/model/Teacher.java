@@ -33,8 +33,6 @@ public class Teacher {
     @Column(updatable = false, name = "creation_date")
     private Instant creationDate;
 
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Subject> subjects = new HashSet<>();
 
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TeacherSubject> teacherLinks = new HashSet<>();
@@ -92,13 +90,6 @@ public class Teacher {
         this.teacherLinks = teacherLinks;
     }
 
-    public Set<Subject> getSubjects() {
-        return subjects;
-    }
-
-    public void setSubjects(Set<Subject> subjects) {
-        this.subjects = subjects;
-    }
 
     public Instant getCreationDate() {
         return creationDate;

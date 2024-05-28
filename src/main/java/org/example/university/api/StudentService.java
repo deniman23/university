@@ -1,6 +1,7 @@
 package org.example.university.api;
 
 import org.example.university.dao.model.Student;
+import org.example.university.dao.service.GroupServiceDao;
 import org.example.university.dao.service.StudentServiceDao;
 import org.example.university.dto.StudentDto;
 import org.example.university.dto.mapper.StudentMapper;
@@ -18,11 +19,13 @@ import java.util.UUID;
 public class StudentService {
 
     private final StudentServiceDao studentServiceDao;
+    private final GroupServiceDao groupServiceDao;
 
 
     @Autowired
-    public StudentService(StudentServiceDao studentServiceDao) {
+    public StudentService(StudentServiceDao studentServiceDao, GroupServiceDao groupServiceDao) {
         this.studentServiceDao = studentServiceDao;
+        this.groupServiceDao = groupServiceDao;
     }
 
     // Поиск по ID
@@ -42,17 +45,21 @@ public class StudentService {
         student.setLastName(studentRequest.getLastName());
         student.setMiddleName(studentRequest.getMiddleName());
         student.setGender(studentRequest.getGender());
+        student.setGroup(groupServiceDao.findById(studentRequest.getGroupId())
+                .orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + studentRequest.getGroupId())));
         student = studentServiceDao.save(student);
         return StudentMapper.entityToDto(student);
     }
 
     public StudentDto edit(StudentRequest studentRequest) {
-        Student student = studentServiceDao.findById(studentRequest.getId()).orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + studentRequest.getId()));
+        Student student = studentServiceDao.findById(studentRequest.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + studentRequest.getId()));
         student.setFirstName(studentRequest.getFirstName());
         student.setLastName(studentRequest.getLastName());
         student.setMiddleName(studentRequest.getMiddleName());
         student.setGender(studentRequest.getGender());
-
+        student.setGroup(groupServiceDao.findById(studentRequest.getGroupId())
+                .orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + studentRequest.getGroupId())));
         student = studentServiceDao.save(student);
         return StudentMapper.entityToDto(student);
     }

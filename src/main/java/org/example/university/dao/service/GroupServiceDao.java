@@ -2,7 +2,6 @@ package org.example.university.dao.service;
 
 import org.example.university.dao.model.Group;
 import org.example.university.dao.repository.GroupRepository;
-import org.example.university.dao.repository.GroupRepository;
 import org.example.university.dao.specification.GroupSpecification;
 import org.example.university.filter.GroupFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,6 @@ public class GroupServiceDao {
         Specification<Group> spec = groupSpecification.searchFilter(filter);
         return groupRepository.findAll(spec, pageable);
     }
-
 
 
     public Optional<Group> findById(UUID id) {

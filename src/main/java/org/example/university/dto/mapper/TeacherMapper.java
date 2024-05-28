@@ -1,6 +1,7 @@
 package org.example.university.dto.mapper;
 
 import org.example.university.dao.model.Teacher;
+import org.example.university.dao.model.TeacherSubject;
 import org.example.university.dto.SubjectDto;
 import org.example.university.dto.TeacherDto;
 
@@ -17,8 +18,8 @@ public class TeacherMapper {
         teacherDto.setGender(teacher.getGender());
         teacherDto.setCreationDate(teacher.getCreationDate());
 
-
-        List<SubjectDto> subjectDtos = teacher.getSubjects().stream()
+        List<SubjectDto> subjectDtos = teacher.getTeacherLinks().stream()
+                .map(TeacherSubject::getSubject)
                 .map(SubjectMapper::entityToDto)
                 .collect(Collectors.toList());
         teacherDto.setSubjects(subjectDtos);
