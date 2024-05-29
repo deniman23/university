@@ -32,6 +32,7 @@ public class GroupServiceDao {
 
 
     public Optional<Group> findById(UUID id) {
+        if (id == null) return Optional.empty();
         return groupRepository.findById(id);
     }
 

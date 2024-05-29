@@ -45,8 +45,12 @@ public class StudentService {
         student.setLastName(studentRequest.getLastName());
         student.setMiddleName(studentRequest.getMiddleName());
         student.setGender(studentRequest.getGender());
-        student.setGroup(groupServiceDao.findById(studentRequest.getGroupId())
-                .orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + studentRequest.getGroupId())));
+
+        if (studentRequest.getGroupId() != null) {
+            student.setGroup(groupServiceDao.findById(studentRequest.getGroupId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + studentRequest.getGroupId())));
+        }
+
         student = studentServiceDao.save(student);
         return StudentMapper.entityToDto(student);
     }
@@ -58,8 +62,14 @@ public class StudentService {
         student.setLastName(studentRequest.getLastName());
         student.setMiddleName(studentRequest.getMiddleName());
         student.setGender(studentRequest.getGender());
-        student.setGroup(groupServiceDao.findById(studentRequest.getGroupId())
-                .orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + studentRequest.getGroupId())));
+
+        if (studentRequest.getGroupId() != null) {
+            student.setGroup(groupServiceDao.findById(studentRequest.getGroupId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + studentRequest.getGroupId())));
+        } else {
+            student.setGroup(null);
+        }
+
         student = studentServiceDao.save(student);
         return StudentMapper.entityToDto(student);
     }

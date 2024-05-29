@@ -18,9 +18,6 @@ public class Subject {
     @NotBlank
     private String title;
 
-//    @ManyToOne
-//    @JoinColumn(name = "teacher_id")
-//    private Teacher teacher;
 
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TeacherSubject> subjectLinks = new HashSet<>();
@@ -40,13 +37,6 @@ public class Subject {
         return id;
     }
 
-//    public Teacher getTeacher() {
-//        return teacher;
-//    }
-//
-//    public void setTeacher(Teacher teacher) {
-//        this.teacher = teacher;
-//    }
 
     public Set<TeacherSubject> getSubjectLinks() {
         return subjectLinks;

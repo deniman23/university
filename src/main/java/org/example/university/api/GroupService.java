@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
@@ -44,11 +45,26 @@ public class GroupService {
         Group group = new Group();
         group.setTitle(groupRequest.getTitle());
         group.setCourse(groupRequest.getCourse());
-        group.setMonitor(studentServiceDao.findById(groupRequest.getMonitorId())
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + groupRequest.getMonitorId())));
-        group.setCurator(teacherServiceDao.findById(groupRequest.getCuratorId())
-                .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with ID: " + groupRequest.getCuratorId())));
-        group.setStudents(studentServiceDao.findAllById(groupRequest.getStudentIds()));
+        group.setStudents(new ArrayList<>());
+
+        if (groupRequest.getMonitorId() != null) {
+            group.setMonitor(studentServiceDao.findById(groupRequest.getMonitorId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + groupRequest.getMonitorId())));
+        } else {
+            group.setMonitor(null);
+        }
+
+        if (groupRequest.getCuratorId() != null) {
+            group.setCurator(teacherServiceDao.findById(groupRequest.getCuratorId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with ID: " + groupRequest.getCuratorId())));
+        } else {
+            group.setCurator(null);
+        }
+
+        if (groupRequest.getStudentIds() != null) {
+            group.setStudents(studentServiceDao.findAllById(groupRequest.getStudentIds()));
+        }
+
         group = groupServiceDao.save(group);
         return GroupMapper.entityToDto(group);
     }
@@ -58,14 +74,29 @@ public class GroupService {
                 .orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + groupRequest.getId()));
         group.setTitle(groupRequest.getTitle());
         group.setCourse(groupRequest.getCourse());
-        group.setMonitor(studentServiceDao.findById(groupRequest.getMonitorId())
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + groupRequest.getMonitorId())));
-        group.setCurator(teacherServiceDao.findById(groupRequest.getCuratorId())
-                .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with ID: " + groupRequest.getCuratorId())));
-        group.setStudents(studentServiceDao.findAllById(groupRequest.getStudentIds()));
+
+        if (groupRequest.getMonitorId() != null) {
+            group.setMonitor(studentServiceDao.findById(groupRequest.getMonitorId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + groupRequest.getMonitorId())));
+        } else {
+            group.setMonitor(null);
+        }
+
+        if (groupRequest.getCuratorId() != null) {
+            group.setCurator(teacherServiceDao.findById(groupRequest.getCuratorId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with ID: " + groupRequest.getCuratorId())));
+        } else {
+            group.setCurator(null);
+        }
+
+        if (groupRequest.getStudentIds() != null) {
+            group.setStudents(studentServiceDao.findAllById(groupRequest.getStudentIds()));
+        }
+
         group = groupServiceDao.save(group);
         return GroupMapper.entityToDto(group);
     }
+
 //todo удаление
     public void terminate(UUID id) {
         Group group = groupServiceDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + id));

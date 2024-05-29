@@ -9,13 +9,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "lessons")
 public class Lesson {
-
-
     @Id
     @GeneratedValue(generator = "uuid-generator")
     @Column(columnDefinition = "uuid", updatable = false)
     private UUID id;
-
 
     @NotBlank
     private String name;
