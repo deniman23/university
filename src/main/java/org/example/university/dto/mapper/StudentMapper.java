@@ -11,7 +11,18 @@ public class StudentMapper {
         studentDto.setLastName(student.getLastName());
         studentDto.setMiddleName(student.getMiddleName());
         studentDto.setGender(student.getGender());
-        studentDto.setGroup(student.getGroup());
+        studentDto.setGroup(GroupMapper.entityToDtoWithoutStudents(student.getGroup()));
+
+        return studentDto;
+    }
+
+    public static StudentDto entityToDtoWithoutGroup(Student student) {
+        StudentDto studentDto = new StudentDto();
+        studentDto.setId(student.getId());
+        studentDto.setFirstName(student.getFirstName());
+        studentDto.setLastName(student.getLastName());
+        studentDto.setMiddleName(student.getMiddleName());
+        studentDto.setGender(student.getGender());
 
         return studentDto;
     }

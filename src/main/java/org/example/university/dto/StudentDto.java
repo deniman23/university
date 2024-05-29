@@ -10,7 +10,7 @@ public class StudentDto {
     private String lastName;
     private String middleName;
     private Gender gender;
-    private Group group;
+    private GroupDto group;
 
     public StudentDto() {
     }
@@ -55,11 +55,11 @@ public class StudentDto {
         this.gender = gender;
     }
 
-    public Group getGroup() {
+    public GroupDto getGroup() {
         return group;
     }
 
-    public void setGroup(Group group) {
+    public void setGroup(GroupDto group) {
         this.group = group;
     }
 }

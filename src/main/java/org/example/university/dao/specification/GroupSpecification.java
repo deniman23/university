@@ -1,6 +1,8 @@
 package org.example.university.dao.specification;
 
+import jakarta.persistence.criteria.Join;
 import org.example.university.dao.model.Group;
+import org.example.university.dao.model.Student;
 import org.example.university.filter.GroupFilter;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -20,10 +22,28 @@ public class GroupSpecification {
             if (value == null) {
                 return null;
             }
-            return cb.like(
-                    cb.lower(root.get(attribute)),
-                    "%" + value.toLowerCase() + "%"
-            );
+            if (attribute.equals("monitorName")) {
+                Join<Group, Student> monitor = root.join("monitor");
+                return cb.or(
+                        cb.like(
+                                cb.lower(monitor.get("firstName")),
+                                "%" + value.toLowerCase() + "%"
+                        ),
+                        cb.like(
+                                cb.lower(monitor.get("middleName")),
+                                "%" + value.toLowerCase() + "%"
+                        ),
+                        cb.like(
+                                cb.lower(monitor.get("lastName")),
+                                "%" + value.toLowerCase() + "%"
+                        )
+                );
+            } else {
+                return cb.like(
+                        cb.lower(root.get(attribute)),
+                        "%" + value.toLowerCase() + "%"
+                );
+            }
         };
     }
 

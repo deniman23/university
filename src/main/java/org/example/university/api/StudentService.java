@@ -66,8 +66,6 @@ public class StudentService {
         if (studentRequest.getGroupId() != null) {
             student.setGroup(groupServiceDao.findById(studentRequest.getGroupId())
                     .orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + studentRequest.getGroupId())));
-        } else {
-            student.setGroup(null);
         }
 
         student = studentServiceDao.save(student);

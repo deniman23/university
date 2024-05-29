@@ -11,8 +11,8 @@ public class GroupDto {
     private UUID id;
     private String title;
     private Integer course;
-    private Student monitor;
-    private Teacher curator;
+    private StudentDto monitor;
+    private TeacherDto curator;
     private List<StudentDto> students;
 
     public GroupDto() {
@@ -42,19 +42,19 @@ public class GroupDto {
         this.course = course;
     }
 
-    public Student getMonitor() {
+    public StudentDto getMonitor() {
         return monitor;
     }
 
-    public void setMonitor(Student monitor) {
+    public void setMonitor(StudentDto monitor) {
         this.monitor = monitor;
     }
 
-    public Teacher getCurator() {
+    public TeacherDto getCurator() {
         return curator;
     }
 
-    public void setCurator(Teacher curator) {
+    public void setCurator(TeacherDto curator) {
         this.curator = curator;
     }
 

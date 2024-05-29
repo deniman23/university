@@ -50,15 +50,11 @@ public class GroupService {
         if (groupRequest.getMonitorId() != null) {
             group.setMonitor(studentServiceDao.findById(groupRequest.getMonitorId())
                     .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + groupRequest.getMonitorId())));
-        } else {
-            group.setMonitor(null);
         }
 
         if (groupRequest.getCuratorId() != null) {
             group.setCurator(teacherServiceDao.findById(groupRequest.getCuratorId())
                     .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with ID: " + groupRequest.getCuratorId())));
-        } else {
-            group.setCurator(null);
         }
 
         if (groupRequest.getStudentIds() != null) {
@@ -78,15 +74,11 @@ public class GroupService {
         if (groupRequest.getMonitorId() != null) {
             group.setMonitor(studentServiceDao.findById(groupRequest.getMonitorId())
                     .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + groupRequest.getMonitorId())));
-        } else {
-            group.setMonitor(null);
         }
 
         if (groupRequest.getCuratorId() != null) {
             group.setCurator(teacherServiceDao.findById(groupRequest.getCuratorId())
                     .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with ID: " + groupRequest.getCuratorId())));
-        } else {
-            group.setCurator(null);
         }
 
         if (groupRequest.getStudentIds() != null) {

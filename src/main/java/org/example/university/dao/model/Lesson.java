@@ -2,6 +2,7 @@ package org.example.university.dao.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -16,6 +17,9 @@ public class Lesson {
 
     @NotBlank
     private String name;
+
+    @CreationTimestamp
+    @Column(updatable = false, name = "creation_date")
     private Instant creationDate;
 
     @ManyToOne
