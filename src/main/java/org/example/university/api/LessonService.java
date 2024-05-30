@@ -107,7 +107,6 @@ public class LessonService {
 
         LessonDto lessonDto = LessonMapper.entityToDto(lesson);
 
-
         lessonDto.setTeacher(TeacherMapper.entityToDto(lesson.getTeacher()));
         lessonDto.setGroup(GroupMapper.entityToDto(lesson.getGroup()));
         lessonDto.setSubject(SubjectMapper.entityToDto(lesson.getSubject()));
@@ -117,8 +116,6 @@ public class LessonService {
 
     // Удалить
     public void delete(UUID id) {
-        Lesson lesson = lessonServiceDao.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Lesson not found with ID: " + id));
-        lessonServiceDao.delete(lesson.getId());
+        lessonServiceDao.delete(id);
     }
 }

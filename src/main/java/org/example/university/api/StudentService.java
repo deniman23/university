@@ -72,9 +72,7 @@ public class StudentService {
         return StudentMapper.entityToDto(student);
     }
 
-    public void terminate(UUID id) {
-        Student student = studentServiceDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + id));
-//        student.setTerminated(true);
-        studentServiceDao.save(student);
+    public void delete(UUID id) {
+        studentServiceDao.delete(id);
     }
 }

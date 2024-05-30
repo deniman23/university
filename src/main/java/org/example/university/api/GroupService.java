@@ -89,10 +89,9 @@ public class GroupService {
         return GroupMapper.entityToDto(group);
     }
 
-//todo удаление
-    public void terminate(UUID id) {
+    public void delete(UUID id) {
         Group group = groupServiceDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + id));
-//        group.setTerminated(true);
+        groupServiceDao.delete(id);
         groupServiceDao.save(group);
     }
 }

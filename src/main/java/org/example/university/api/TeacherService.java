@@ -92,11 +92,8 @@ public class TeacherService {
     }
 
 
-    public void terminate(UUID id) {
-        Teacher teacher = teacherServiceDao.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with ID: " + id));
-//        teacher.setTerminated(true);
-        teacherServiceDao.save(teacher);
+    public void delete(UUID id) {
+        teacherServiceDao.delete(id);
     }
 
 }

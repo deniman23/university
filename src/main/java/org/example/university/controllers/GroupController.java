@@ -35,8 +35,8 @@ public class GroupController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> terminate(@PathVariable UUID id) {
-        groupService.terminate(id);
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        groupService.delete(id);
         return ResponseEntity.ok().body("Group terminated");
     }
 

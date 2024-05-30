@@ -35,8 +35,8 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> terminate(@PathVariable UUID id) {
-        studentService.terminate(id);
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        studentService.delete(id);
         return ResponseEntity.ok().body("Student terminated");
     }
 
