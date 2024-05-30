@@ -3,7 +3,10 @@ package org.example.university.api;
 import org.example.university.dao.model.Lesson;
 import org.example.university.dao.service.*;
 import org.example.university.dto.LessonDto;
+import org.example.university.dto.mapper.GroupMapper;
 import org.example.university.dto.mapper.LessonMapper;
+import org.example.university.dto.mapper.SubjectMapper;
+import org.example.university.dto.mapper.TeacherMapper;
 import org.example.university.error.ResourceNotFoundException;
 import org.example.university.filter.LessonFilter;
 import org.example.university.request.LessonRequest;
@@ -46,30 +49,70 @@ public class LessonService {
         Lesson lesson = new Lesson();
         lesson.setName(lessonRequest.getName());
         lesson.setCreationDate(lessonRequest.getCreationDate());
-        lesson.setTeacher(teacherServiceDao.findById(lessonRequest.getTeacherId())
-                .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with ID: " + lessonRequest.getTeacherId())));
-        lesson.setSubject(subjectServiceDao.findById(lessonRequest.getSubjectId())
-                .orElseThrow(() -> new ResourceNotFoundException("Subject not found with ID: " + lessonRequest.getSubjectId())));
-        lesson.setGroup(groupServiceDao.findById(lessonRequest.getGroupId())
-                .orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + lessonRequest.getGroupId())));
+
+        if (lessonRequest.getGroupId() != null) {
+            lesson.setGroup(groupServiceDao.findById(lessonRequest.getGroupId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + lessonRequest.getGroupId())));
+        }
+        if (lessonRequest.getTeacherId() != null) {
+            lesson.setTeacher(teacherServiceDao.findById(lessonRequest.getTeacherId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with ID: " + lessonRequest.getTeacherId())));
+        }
+        if (lessonRequest.getSubjectId() != null) {
+            lesson.setSubject(subjectServiceDao.findById(lessonRequest.getSubjectId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Subject not found with ID: " + lessonRequest.getSubjectId())));
+        }
+
         lesson = lessonServiceDao.save(lesson);
-        return LessonMapper.entityToDto(lesson);
+
+        LessonDto lessonDto = LessonMapper.entityToDto(lesson);
+
+        lessonDto.setTeacher(TeacherMapper.entityToDto(lesson.getTeacher()));
+        lessonDto.setGroup(GroupMapper.entityToDto(lesson.getGroup()));
+        lessonDto.setSubject(SubjectMapper.entityToDto(lesson.getSubject()));
+
+        return lessonDto;
     }
 
     // Изменить
-    public LessonDto update(LessonRequest lessonRequest, UUID id) {
+    public LessonDto edit(LessonRequest lessonRequest, UUID id) {
         Lesson lesson = lessonServiceDao.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson not found with ID: " + id));
+
         lesson.setName(lessonRequest.getName());
         lesson.setCreationDate(lessonRequest.getCreationDate());
-        lesson.setTeacher(teacherServiceDao.findById(lessonRequest.getTeacherId())
-                .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with ID: " + lessonRequest.getTeacherId())));
-        lesson.setSubject(subjectServiceDao.findById(lessonRequest.getSubjectId())
-                .orElseThrow(() -> new ResourceNotFoundException("Subject not found with ID: " + lessonRequest.getSubjectId())));
-        lesson.setGroup(groupServiceDao.findById(lessonRequest.getGroupId())
-                .orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + lessonRequest.getGroupId())));
+
+        if (lessonRequest.getGroupId() != null) {
+            lesson.setGroup(groupServiceDao.findById(lessonRequest.getGroupId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + lessonRequest.getGroupId())));
+        } else {
+            lesson.setGroup(null);
+        }
+
+        if (lessonRequest.getTeacherId() != null) {
+            lesson.setTeacher(teacherServiceDao.findById(lessonRequest.getTeacherId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with ID: " + lessonRequest.getTeacherId())));
+        } else {
+            lesson.setTeacher(null);
+        }
+
+        if (lessonRequest.getSubjectId() != null) {
+            lesson.setSubject(subjectServiceDao.findById(lessonRequest.getSubjectId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Subject not found with ID: " + lessonRequest.getSubjectId())));
+        } else {
+            lesson.setSubject(null);
+        }
+
         lesson = lessonServiceDao.save(lesson);
-        return LessonMapper.entityToDto(lesson);
+
+        LessonDto lessonDto = LessonMapper.entityToDto(lesson);
+
+
+        lessonDto.setTeacher(TeacherMapper.entityToDto(lesson.getTeacher()));
+        lessonDto.setGroup(GroupMapper.entityToDto(lesson.getGroup()));
+        lessonDto.setSubject(SubjectMapper.entityToDto(lesson.getSubject()));
+
+        return lessonDto;
     }
 
     // Удалить

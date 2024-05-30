@@ -34,13 +34,13 @@ public class SubjectController {
         SubjectDto updated = subjectService.edit(teacherRequest);
         return ResponseEntity.ok().body(updated);
     }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<?> terminate(@PathVariable UUID id) {
-//        subjectService.terminate(id);
-//        return ResponseEntity.ok().body("Employee terminated");
-//    }
-//
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        subjectService.delete(id);
+        return ResponseEntity.ok().body("Subject deleted");
+    }
+
     @GetMapping("/{id}")
     public SubjectDto output(@PathVariable UUID id) {
         return subjectService.findById(id);

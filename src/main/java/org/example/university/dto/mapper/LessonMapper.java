@@ -9,9 +9,6 @@ public class LessonMapper {
         dto.setId(lesson.getId());
         dto.setName(lesson.getName());
         dto.setCreationDate(lesson.getCreationDate());
-        dto.setTeacherId(lesson.getTeacher().getId());
-        dto.setGroupId(lesson.getGroup().getId());
-        dto.setSubjectId(lesson.getSubject().getId());
         return dto;
     }
 

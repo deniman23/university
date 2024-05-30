@@ -7,9 +7,9 @@ public class LessonDto {
     private UUID id;
     private String name;
     private Instant creationDate;
-    private UUID teacherId;
-    private UUID groupId;
-    private UUID subjectId;
+    private TeacherDto teacher;
+    private GroupDto group;
+    private SubjectDto subject;
 
     public LessonDto() {
     }
@@ -38,27 +38,28 @@ public class LessonDto {
         this.creationDate = creationDate;
     }
 
-    public UUID getTeacherId() {
-        return teacherId;
+
+    public SubjectDto getSubject() {
+        return subject;
     }
 
-    public void setTeacherId(UUID teacherId) {
-        this.teacherId = teacherId;
+    public void setSubject(SubjectDto subject) {
+        this.subject = subject;
     }
 
-    public UUID getGroupId() {
-        return groupId;
+    public GroupDto getGroup() {
+        return group;
     }
 
-    public void setGroupId(UUID groupId) {
-        this.groupId = groupId;
+    public void setGroup(GroupDto group) {
+        this.group = group;
     }
 
-    public UUID getSubjectId() {
-        return subjectId;
+    public TeacherDto getTeacher() {
+        return teacher;
     }
 
-    public void setSubjectId(UUID subjectId) {
-        this.subjectId = subjectId;
+    public void setTeacher(TeacherDto teacher) {
+        this.teacher = teacher;
     }
 }

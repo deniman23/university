@@ -30,7 +30,7 @@ public class LessonController {
 
     @PutMapping("/{id}")
     public ResponseEntity<LessonDto> update(@RequestBody LessonRequest lessonRequest, @PathVariable UUID id) {
-        LessonDto updated = lessonService.update(lessonRequest, id);
+        LessonDto updated = lessonService.edit(lessonRequest, id);
         return ResponseEntity.ok().body(updated);
     }
 
