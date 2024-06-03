@@ -26,8 +26,8 @@ public class TeacherServiceDao {
         this.teacherSpecification = teacherSpecification;
     }
 
-    public Page<Teacher> findByFilter(TeacherFilter filter, Pageable pageable) {
-        Specification<Teacher> spec = teacherSpecification.searchFilter(filter);
+    public Page<Teacher> findByFilter(TeacherFilter filter, Pageable pageable, List<String> includes) {
+        Specification<Teacher> spec = teacherSpecification.searchFilter(filter, includes);
         return teacherRepository.findAll(spec, pageable);
     }
 

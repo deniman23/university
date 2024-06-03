@@ -32,7 +32,7 @@ public class Teacher {
     private Instant creationDate;
 
 
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<TeacherSubject> teacherLinks = new HashSet<>();
 
     public Teacher() {

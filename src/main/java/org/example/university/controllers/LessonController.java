@@ -1,6 +1,6 @@
 package org.example.university.controllers;
 
-import org.example.university.api.LessonService;
+import org.example.university.service.LessonService;
 import org.example.university.dto.LessonDto;
 import org.example.university.filter.LessonFilter;
 import org.example.university.request.LessonRequest;
@@ -23,14 +23,14 @@ public class LessonController {
     }
 
     @PostMapping
-    public ResponseEntity<LessonDto> create(@RequestBody LessonRequest lessonRequest) {
-        LessonDto created = lessonService.create(lessonRequest);
+    public ResponseEntity<LessonDto> create(@RequestBody LessonRequest lessonRequest, @RequestParam(required = false)List<String> includes) {
+        LessonDto created = lessonService.create(lessonRequest, includes);
         return ResponseEntity.ok().body(created);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LessonDto> edit(@RequestBody LessonRequest lessonRequest, @PathVariable UUID id) {
-        LessonDto updated = lessonService.edit(lessonRequest, id);
+    public ResponseEntity<LessonDto> edit(@RequestBody LessonRequest lessonRequest, @PathVariable UUID id, @RequestParam(required = false)List<String> includes) {
+        LessonDto updated = lessonService.edit(lessonRequest, id, includes);
         return ResponseEntity.ok().body(updated);
     }
 
@@ -41,12 +41,12 @@ public class LessonController {
     }
 
     @GetMapping("/{id}")
-    public LessonDto findById(@PathVariable UUID id) {
-        return lessonService.findById(id);
+    public LessonDto output(@PathVariable UUID id, @RequestParam(required = false)List<String> includes) {
+        return lessonService.findById(id, includes);
     }
 
     @GetMapping
-    public List<LessonDto> findAll(LessonFilter lessonFilter, Pageable pageable) {
-        return lessonService.findAll(lessonFilter, pageable).getContent();
+    public List<LessonDto> filter(LessonFilter lessonFilter, Pageable pageable, @RequestParam(required = false) List<String> includes) {
+        return lessonService.findAll(lessonFilter, pageable, includes).getContent();
     }
 }

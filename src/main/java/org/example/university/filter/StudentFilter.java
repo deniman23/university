@@ -1,12 +1,14 @@
 package org.example.university.filter;
 
 import java.time.Instant;
+import java.util.List;
 
 public class StudentFilter {
     private String search;
     private String gender;
     private Instant startDate;
     private Instant endDate;
+    private List<String> includes;
 
     public StudentFilter(){
     }
@@ -41,5 +43,13 @@ public class StudentFilter {
 
     public void setEndDate(Instant endDate) {
         this.endDate = endDate;
+    }
+
+    public List<String> getIncludes() {
+        return includes;
+    }
+
+    public void setIncludes(List<String> includes) {
+        this.includes = includes;
     }
 }

@@ -1,6 +1,7 @@
 package org.example.university.filter;
 
 import java.time.Instant;
+import java.util.List;
 
 public class LessonFilter {
     private String teacherName;
@@ -8,8 +9,18 @@ public class LessonFilter {
     private Instant startDate;
     private Instant endDate;
     private String groupName;
+    private List<String> includes;
+
 
     public LessonFilter() {
+    }
+
+    public List<String> getIncludes() {
+        return includes;
+    }
+
+    public void setIncludes(List<String> includes) {
+        this.includes = includes;
     }
 
     public String getTeacherName() {

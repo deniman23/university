@@ -1,6 +1,6 @@
 package org.example.university.controllers;
 
-import org.example.university.api.SubjectService;
+import org.example.university.service.SubjectService;
 import org.example.university.dto.SubjectDto;
 import org.example.university.filter.SubjectFilter;
 import org.example.university.request.SubjectRequest;

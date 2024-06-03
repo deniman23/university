@@ -1,4 +1,4 @@
-package org.example.university.api;
+package org.example.university.service;
 
 import org.example.university.dao.model.Group;
 import org.example.university.dao.service.GroupServiceDao;
@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -31,17 +32,17 @@ public class GroupService {
     }
 
     // Поиск по ID
-    public GroupDto findById(UUID id) {
+    public GroupDto findById(UUID id, List<String> includes) {
         Group group = groupServiceDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + id));
-        return GroupMapper.entityToDto(group);
+        return GroupMapper.entityToDto(group, includes);
     }
 
-    public Page<GroupDto> findAll(GroupFilter filter, Pageable pageable) {
-        Page<Group> groupPage = groupServiceDao.findByFilter(filter, pageable);
-        return groupPage.map(GroupMapper::entityToDto);
+    public Page<GroupDto> findAll(GroupFilter filter, Pageable pageable, List<String> includes) {
+        Page<Group> groupPage = groupServiceDao.findByFilter(filter, pageable, includes);
+        return groupPage.map(group -> GroupMapper.entityToDto(group, includes));
     }
 
-    public GroupDto create(GroupRequest groupRequest) {
+    public GroupDto create(GroupRequest groupRequest, List<String> includes) {
         Group group = new Group();
         group.setTitle(groupRequest.getTitle());
         group.setCourse(groupRequest.getCourse());
@@ -62,10 +63,10 @@ public class GroupService {
         }
 
         group = groupServiceDao.save(group);
-        return GroupMapper.entityToDto(group);
+        return GroupMapper.entityToDto(group, includes);
     }
 
-    public GroupDto edit(GroupRequest groupRequest) {
+    public GroupDto edit(GroupRequest groupRequest, List<String> includes) {
         Group group = groupServiceDao.findById(groupRequest.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + groupRequest.getId()));
         group.setTitle(groupRequest.getTitle());
@@ -86,7 +87,7 @@ public class GroupService {
         }
 
         group = groupServiceDao.save(group);
-        return GroupMapper.entityToDto(group);
+        return GroupMapper.entityToDto(group, includes);
     }
 
     public void delete(UUID id) {

@@ -27,7 +27,7 @@ public class Student {
     @NotBlank
     private String middleName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
 

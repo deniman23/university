@@ -2,7 +2,7 @@ package org.example.university.dao.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import org.antlr.v4.runtime.misc.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -21,15 +21,16 @@ public class Group {
     @NotNull
     private Integer course;
 
-    @OneToOne
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "monitor_id")
     private Student monitor;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "curator_id")
     private Teacher curator;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     private List<Student> students = new ArrayList<>();
 
     public Group() {

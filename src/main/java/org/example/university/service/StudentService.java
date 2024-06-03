@@ -1,4 +1,4 @@
-package org.example.university.api;
+package org.example.university.service;
 
 import org.example.university.dao.model.Student;
 import org.example.university.dao.service.GroupServiceDao;
@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,25 +22,23 @@ public class StudentService {
     private final StudentServiceDao studentServiceDao;
     private final GroupServiceDao groupServiceDao;
 
-
     @Autowired
     public StudentService(StudentServiceDao studentServiceDao, GroupServiceDao groupServiceDao) {
         this.studentServiceDao = studentServiceDao;
         this.groupServiceDao = groupServiceDao;
     }
 
-    // Поиск по ID
-    public StudentDto findById(UUID id) {
+    public StudentDto findById(UUID id, List<String> includes) {
         Student student = studentServiceDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + id));
-        return StudentMapper.entityToDto(student);
+        return StudentMapper.entityToDto(student, includes);
     }
 
-    public Page<StudentDto> findAll(StudentFilter filter, Pageable pageable) {
-        Page<Student> studentPage = studentServiceDao.findByFilter(filter, pageable);
-        return studentPage.map(StudentMapper::entityToDto);
+    public Page<StudentDto> findAll(StudentFilter filter, Pageable pageable, List<String> includes) {
+        Page<Student> studentPage = studentServiceDao.findByFilter(filter, pageable, includes);
+        return studentPage.map(student -> StudentMapper.entityToDto(student, includes));
     }
 
-    public StudentDto create(StudentRequest studentRequest) {
+    public StudentDto create(StudentRequest studentRequest, List<String> includes) {
         Student student = new Student();
         student.setFirstName(studentRequest.getFirstName());
         student.setLastName(studentRequest.getLastName());
@@ -52,10 +51,10 @@ public class StudentService {
         }
 
         student = studentServiceDao.save(student);
-        return StudentMapper.entityToDto(student);
+        return StudentMapper.entityToDto(student, includes);
     }
 
-    public StudentDto edit(StudentRequest studentRequest) {
+    public StudentDto edit(StudentRequest studentRequest, List<String> includes) {
         Student student = studentServiceDao.findById(studentRequest.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + studentRequest.getId()));
         student.setFirstName(studentRequest.getFirstName());
@@ -69,7 +68,7 @@ public class StudentService {
         }
 
         student = studentServiceDao.save(student);
-        return StudentMapper.entityToDto(student);
+        return StudentMapper.entityToDto(student, includes);
     }
 
     public void delete(UUID id) {

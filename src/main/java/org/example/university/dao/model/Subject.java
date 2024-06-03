@@ -19,7 +19,7 @@ public class Subject {
     private String title;
 
 
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<TeacherSubject> subjectLinks = new HashSet<>();
 
     public Subject() {

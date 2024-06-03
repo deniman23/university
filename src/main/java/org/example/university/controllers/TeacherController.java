@@ -1,10 +1,11 @@
 package org.example.university.controllers;
 
-import org.example.university.api.TeacherService;
+import org.example.university.service.TeacherService;
 import org.example.university.dto.TeacherDto;
 import org.example.university.filter.TeacherFilter;
 import org.example.university.request.TeacherRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/teachers")
 public class TeacherController {
+
     private final TeacherService teacherService;
 
     @Autowired
@@ -22,31 +24,28 @@ public class TeacherController {
         this.teacherService = teacherService;
     }
 
-    @PostMapping
-    public ResponseEntity<TeacherDto> create(@RequestBody TeacherRequest teacherRequest) {
-        TeacherDto created = teacherService.create(teacherRequest);
-        return ResponseEntity.ok().body(created);
-    }
-
-    @PutMapping
-    public ResponseEntity<TeacherDto> edit(@RequestBody TeacherRequest teacherRequest) {
-        TeacherDto updated = teacherService.edit(teacherRequest);
-        return ResponseEntity.ok().body(updated);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
-        teacherService.delete(id);
-        return ResponseEntity.ok().body("Employee terminated");
-    }
-
     @GetMapping("/{id}")
-    public TeacherDto output(@PathVariable UUID id) {
-        return teacherService.findById(id);
+    public TeacherDto findById(@PathVariable UUID id, @RequestParam(required = false) List<String> includes) {
+        return teacherService.findById(id, includes);
     }
 
     @GetMapping
-    public List<TeacherDto> filter(TeacherFilter teacherFilter, Pageable pageable) {
-        return teacherService.findAll(teacherFilter, pageable).getContent();
+    public Page<TeacherDto> findAll(TeacherFilter filter, Pageable pageable, @RequestParam(required = false) List<String> includes) {
+        return teacherService.findAll(filter, pageable, includes);
+    }
+
+    @PostMapping
+    public TeacherDto create(@RequestBody TeacherRequest teacherRequest, @RequestParam(required = false) List<String> includes) {
+        return teacherService.create(teacherRequest, includes);
+    }
+
+    @PutMapping
+    public TeacherDto edit(@RequestBody TeacherRequest teacherRequest, @RequestParam(required = false) List<String> includes) {
+        return teacherService.edit(teacherRequest, includes);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable UUID id) {
+        teacherService.delete(id);
     }
 }

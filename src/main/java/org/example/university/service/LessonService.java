@@ -1,4 +1,4 @@
-package org.example.university.api;
+package org.example.university.service;
 
 import org.example.university.dao.model.Lesson;
 import org.example.university.dao.service.*;
@@ -15,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -33,19 +35,19 @@ public class LessonService {
     }
 
     // Поиск по ID
-    public LessonDto findById(UUID id) {
+    public LessonDto findById(UUID id, List<String> includes) {
         Lesson lesson = lessonServiceDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Lesson not found with ID: " + id));
-        return LessonMapper.entityToDto(lesson);
+        return LessonMapper.entityToDto(lesson, includes);
     }
 
     // Поиск по фильтру с постраничным выводом
-    public Page<LessonDto> findAll(LessonFilter filter, Pageable pageable) {
-        Page<Lesson> lessonPage = lessonServiceDao.findByFilter(filter, pageable);
-        return lessonPage.map(LessonMapper::entityToDto);
+    public Page<LessonDto> findAll(LessonFilter filter, Pageable pageable, List<String> includes) {
+        Page<Lesson> lessonPage = lessonServiceDao.findByFilter(filter, pageable, includes);
+        return lessonPage.map(lesson -> LessonMapper.entityToDto(lesson, includes));
     }
 
     // Создать
-    public LessonDto create(LessonRequest lessonRequest) {
+    public LessonDto create(LessonRequest lessonRequest, List<String> includes) {
         Lesson lesson = new Lesson();
         lesson.setName(lessonRequest.getName());
         lesson.setCreationDate(lessonRequest.getCreationDate());
@@ -65,17 +67,17 @@ public class LessonService {
 
         lesson = lessonServiceDao.save(lesson);
 
-        LessonDto lessonDto = LessonMapper.entityToDto(lesson);
+        LessonDto lessonDto = LessonMapper.entityToDto(lesson, includes);
 
-        lessonDto.setTeacher(TeacherMapper.entityToDto(lesson.getTeacher()));
-        lessonDto.setGroup(GroupMapper.entityToDto(lesson.getGroup()));
+        lessonDto.setTeacher(TeacherMapper.entityToDto(lesson.getTeacher(), includes));
+        lessonDto.setGroup(GroupMapper.entityToDto(lesson.getGroup(), includes));
         lessonDto.setSubject(SubjectMapper.entityToDto(lesson.getSubject()));
 
         return lessonDto;
     }
 
     // Изменить
-    public LessonDto edit(LessonRequest lessonRequest, UUID id) {
+    public LessonDto edit(LessonRequest lessonRequest, UUID id, List<String> includes) {
         Lesson lesson = lessonServiceDao.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson not found with ID: " + id));
 
@@ -105,10 +107,10 @@ public class LessonService {
 
         lesson = lessonServiceDao.save(lesson);
 
-        LessonDto lessonDto = LessonMapper.entityToDto(lesson);
+        LessonDto lessonDto = LessonMapper.entityToDto(lesson, includes);
 
-        lessonDto.setTeacher(TeacherMapper.entityToDto(lesson.getTeacher()));
-        lessonDto.setGroup(GroupMapper.entityToDto(lesson.getGroup()));
+        lessonDto.setTeacher(TeacherMapper.entityToDto(lesson.getTeacher(), includes));
+        lessonDto.setGroup(GroupMapper.entityToDto(lesson.getGroup(), includes));
         lessonDto.setSubject(SubjectMapper.entityToDto(lesson.getSubject()));
 
         return lessonDto;

@@ -25,9 +25,8 @@ public class GroupServiceDao {
         this.groupSpecification = groupSpecification;
     }
 
-    public Page<Group> findByFilter(GroupFilter filter, Pageable pageable) {
-        Specification<Group> spec = groupSpecification.searchFilter(filter);
-        return groupRepository.findAll(spec, pageable);
+    public Page<Group> findByFilter(GroupFilter filter, Pageable pageable, List<String> includes) {
+        return groupRepository.findAll(groupSpecification.searchFilter(filter, includes), pageable);
     }
 
 

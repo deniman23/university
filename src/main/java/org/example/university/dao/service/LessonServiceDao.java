@@ -25,8 +25,8 @@ public class LessonServiceDao {
         this.lessonSpecification = lessonSpecification;
     }
 
-    public Page<Lesson> findByFilter(LessonFilter filter, Pageable pageable) {
-        Specification<Lesson> spec = lessonSpecification.searchFilter(filter);
+    public Page<Lesson> findByFilter(LessonFilter filter, Pageable pageable, List<String> includes) {
+        Specification<Lesson> spec = lessonSpecification.searchFilter(filter, includes);
         return lessonRepository.findAll(spec, pageable);
     }
 

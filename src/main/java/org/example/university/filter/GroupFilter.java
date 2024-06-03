@@ -1,10 +1,13 @@
 package org.example.university.filter;
 
+import java.util.List;
+
 public class GroupFilter {
     private String search;
     private Integer course;
     private String monitorName;
     private String curatorName;
+    private List<String> includes;
 
     public GroupFilter() {
     }
@@ -39,5 +42,13 @@ public class GroupFilter {
 
     public void setCuratorName(String curatorName) {
         this.curatorName = curatorName;
+    }
+
+    public List<String> getIncludes() {
+        return includes;
+    }
+
+    public void setIncludes(List<String> includes) {
+        this.includes = includes;
     }
 }

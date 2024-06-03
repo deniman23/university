@@ -1,4 +1,4 @@
-package org.example.university.api;
+package org.example.university.service;
 
 import org.example.university.dao.model.Subject;
 import org.example.university.dao.service.SubjectServiceDao;

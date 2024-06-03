@@ -1,6 +1,6 @@
 package org.example.university.controllers;
 
-import org.example.university.api.GroupService;
+import org.example.university.service.GroupService;
 import org.example.university.dto.GroupDto;
 import org.example.university.filter.GroupFilter;
 import org.example.university.request.GroupRequest;
@@ -23,30 +23,30 @@ public class GroupController {
     }
 
     @PostMapping
-    public ResponseEntity<GroupDto> create(@RequestBody GroupRequest groupRequest) {
-        GroupDto created = groupService.create(groupRequest);
+    public ResponseEntity<GroupDto> create(@RequestBody GroupRequest groupRequest, @RequestParam(required = false) List<String> includes) {
+        GroupDto created = groupService.create(groupRequest, includes);
         return ResponseEntity.ok().body(created);
     }
 
     @PutMapping
-    public ResponseEntity<GroupDto> edit(@RequestBody GroupRequest groupRequest) {
-        GroupDto updated = groupService.edit(groupRequest);
+    public ResponseEntity<GroupDto> edit(@RequestBody GroupRequest groupRequest, @RequestParam(required = false) List<String> includes) {
+        GroupDto updated = groupService.edit(groupRequest, includes);
         return ResponseEntity.ok().body(updated);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
         groupService.delete(id);
-        return ResponseEntity.ok().body("Group terminated");
+        return ResponseEntity.ok().body("Group deleted");
     }
 
     @GetMapping("/{id}")
-    public GroupDto output(@PathVariable UUID id) {
-        return groupService.findById(id);
+    public GroupDto output(@PathVariable UUID id, @RequestParam(required = false) List<String> includes) {
+        return groupService.findById(id, includes);
     }
 
     @GetMapping
-    public List<GroupDto> filter(GroupFilter groupFilter, Pageable pageable) {
-        return groupService.findAll(groupFilter, pageable).getContent();
+    public List<GroupDto> filter(GroupFilter groupFilter, Pageable pageable, @RequestParam(required = false) List<String> includes) {
+        return groupService.findAll(groupFilter, pageable, includes).getContent();
     }
 }
