@@ -1,16 +1,12 @@
 package org.example.university.service;
 
-import org.example.university.dao.model.Subject;
 import org.example.university.dao.model.Teacher;
-import org.example.university.dao.model.TeacherSubject;
-import org.example.university.dao.service.SubjectServiceDao;
 import org.example.university.dao.service.TeacherServiceDao;
 import org.example.university.dto.TeacherDto;
 import org.example.university.dto.mapper.TeacherMapper;
 import org.example.university.error.ResourceNotFoundException;
 import org.example.university.filter.TeacherFilter;
 import org.example.university.request.TeacherRequest;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

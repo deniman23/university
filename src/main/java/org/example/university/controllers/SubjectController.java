@@ -5,6 +5,7 @@ import org.example.university.dto.SubjectDto;
 import org.example.university.filter.SubjectFilter;
 import org.example.university.request.SubjectRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +48,7 @@ public class SubjectController {
     }
 
     @GetMapping
-    public List<SubjectDto> filter(SubjectFilter subjectFilter, Pageable pageable) {
-        return subjectService.findAll(subjectFilter, pageable).getContent();
+    public Page<SubjectDto> filter(SubjectFilter subjectFilter, Pageable pageable) {
+        return subjectService.findAll(subjectFilter, pageable);
     }
 }
