@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -35,18 +35,21 @@ public class LessonService {
     }
 
     // Поиск по ID
+    @Transactional(readOnly = true)
     public LessonDto findById(UUID id, List<String> includes) {
         Lesson lesson = lessonServiceDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Lesson not found with ID: " + id));
         return LessonMapper.entityToDto(lesson, includes);
     }
 
     // Поиск по фильтру с постраничным выводом
+    @Transactional(readOnly = true)
     public Page<LessonDto> findAll(LessonFilter filter, Pageable pageable, List<String> includes) {
         Page<Lesson> lessonPage = lessonServiceDao.findByFilter(filter, pageable, includes);
         return lessonPage.map(lesson -> LessonMapper.entityToDto(lesson, includes));
     }
 
     // Создать
+    @Transactional(readOnly = true)
     public LessonDto create(LessonRequest lessonRequest, List<String> includes) {
         Lesson lesson = new Lesson();
         lesson.setName(lessonRequest.getName());
@@ -77,6 +80,7 @@ public class LessonService {
     }
 
     // Изменить
+    @Transactional(readOnly = true)
     public LessonDto edit(LessonRequest lessonRequest, UUID id, List<String> includes) {
         Lesson lesson = lessonServiceDao.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson not found with ID: " + id));
@@ -117,6 +121,7 @@ public class LessonService {
     }
 
     // Удалить
+    @Transactional(readOnly = true)
     public void delete(UUID id) {
         lessonServiceDao.delete(id);
     }

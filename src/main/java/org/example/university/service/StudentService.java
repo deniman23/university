@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,16 +29,19 @@ public class StudentService {
         this.groupServiceDao = groupServiceDao;
     }
 
+    @Transactional(readOnly = true)
     public StudentDto findById(UUID id, List<String> includes) {
         Student student = studentServiceDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + id));
         return StudentMapper.entityToDto(student, includes);
     }
 
+    @Transactional(readOnly = true)
     public Page<StudentDto> findAll(StudentFilter filter, Pageable pageable, List<String> includes) {
         Page<Student> studentPage = studentServiceDao.findByFilter(filter, pageable, includes);
         return studentPage.map(student -> StudentMapper.entityToDto(student, includes));
     }
 
+    @Transactional(readOnly = true)
     public StudentDto create(StudentRequest studentRequest, List<String> includes) {
         Student student = new Student();
         student.setFirstName(studentRequest.getFirstName());
@@ -54,6 +58,7 @@ public class StudentService {
         return StudentMapper.entityToDto(student, includes);
     }
 
+    @Transactional(readOnly = true)
     public StudentDto edit(StudentRequest studentRequest, List<String> includes) {
         Student student = studentServiceDao.findById(studentRequest.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + studentRequest.getId()));
@@ -71,6 +76,7 @@ public class StudentService {
         return StudentMapper.entityToDto(student, includes);
     }
 
+    @Transactional(readOnly = true)
     public void delete(UUID id) {
         studentServiceDao.delete(id);
     }

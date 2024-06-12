@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,16 +33,17 @@ public class GroupService {
     }
 
     // Поиск по ID
+    @Transactional(readOnly = true)
     public GroupDto findById(UUID id, List<String> includes) {
         Group group = groupServiceDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + id));
         return GroupMapper.entityToDto(group, includes);
     }
-
+    @Transactional(readOnly = true)
     public Page<GroupDto> findAll(GroupFilter filter, Pageable pageable, List<String> includes) {
         Page<Group> groupPage = groupServiceDao.findByFilter(filter, pageable, includes);
         return groupPage.map(group -> GroupMapper.entityToDto(group, includes));
     }
-
+    @Transactional(readOnly = true)
     public GroupDto create(GroupRequest groupRequest, List<String> includes) {
         Group group = new Group();
         group.setTitle(groupRequest.getTitle());
@@ -65,7 +67,7 @@ public class GroupService {
         group = groupServiceDao.save(group);
         return GroupMapper.entityToDto(group, includes);
     }
-
+    @Transactional(readOnly = true)
     public GroupDto edit(GroupRequest groupRequest, List<String> includes) {
         Group group = groupServiceDao.findById(groupRequest.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + groupRequest.getId()));
@@ -89,10 +91,8 @@ public class GroupService {
         group = groupServiceDao.save(group);
         return GroupMapper.entityToDto(group, includes);
     }
-
+    @Transactional(readOnly = true)
     public void delete(UUID id) {
-        Group group = groupServiceDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + id));
         groupServiceDao.delete(id);
-        groupServiceDao.save(group);
     }
 }

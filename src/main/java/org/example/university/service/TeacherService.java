@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -26,16 +27,19 @@ public class TeacherService {
         this.teacherServiceDao = teacherServiceDao;
     }
 
+    @Transactional(readOnly = true)
     public TeacherDto findById(UUID id, List<String> includes) {
         Teacher teacher = teacherServiceDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Teacher not found with ID: " + id));
         return TeacherMapper.entityToDto(teacher, includes);
     }
 
+    @Transactional(readOnly = true)
     public Page<TeacherDto> findAll(TeacherFilter filter, Pageable pageable, List<String> includes) {
         Page<Teacher> teacherPage = teacherServiceDao.findByFilter(filter, pageable, includes);
         return teacherPage.map(teacher -> TeacherMapper.entityToDto(teacher, includes));
     }
 
+    @Transactional(readOnly = true)
     public TeacherDto create(TeacherRequest teacherRequest, List<String> includes) {
         Teacher teacher = new Teacher();
         teacher.setFirstName(teacherRequest.getFirstName());
@@ -47,6 +51,7 @@ public class TeacherService {
         return TeacherMapper.entityToDto(teacher, includes);
     }
 
+    @Transactional(readOnly = true)
     public TeacherDto edit(TeacherRequest teacherRequest, List<String> includes) {
         Teacher teacher = teacherServiceDao.findById(teacherRequest.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with ID: " + teacherRequest.getId()));
@@ -59,6 +64,7 @@ public class TeacherService {
         return TeacherMapper.entityToDto(teacher, includes);
     }
 
+    @Transactional(readOnly = true)
     public void delete(UUID id) {
         teacherServiceDao.delete(id);
     }

@@ -5,6 +5,7 @@ import org.example.university.dto.GroupDto;
 import org.example.university.filter.GroupFilter;
 import org.example.university.request.GroupRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +47,7 @@ public class GroupController {
     }
 
     @GetMapping
-    public List<GroupDto> filter(GroupFilter groupFilter, Pageable pageable, @RequestParam(required = false) List<String> includes) {
-        return groupService.findAll(groupFilter, pageable, includes).getContent();
+    public Page<GroupDto> filter(GroupFilter groupFilter, Pageable pageable, @RequestParam(required = false) List<String> includes) {
+        return groupService.findAll(groupFilter, pageable, includes);
     }
 }

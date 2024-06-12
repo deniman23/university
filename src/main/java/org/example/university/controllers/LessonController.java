@@ -5,6 +5,7 @@ import org.example.university.dto.LessonDto;
 import org.example.university.filter.LessonFilter;
 import org.example.university.request.LessonRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +47,7 @@ public class LessonController {
     }
 
     @GetMapping
-    public List<LessonDto> filter(LessonFilter lessonFilter, Pageable pageable, @RequestParam(required = false) List<String> includes) {
-        return lessonService.findAll(lessonFilter, pageable, includes).getContent();
+    public Page<LessonDto> filter(LessonFilter lessonFilter, Pageable pageable, @RequestParam(required = false) List<String> includes) {
+        return lessonService.findAll(lessonFilter, pageable, includes);
     }
 }
