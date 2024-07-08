@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX idx_generated_data_unique ON schema_name.generated_data (varchar1, varchar2, varchar3);

@@ -1,0 +1,1 @@
+CREATE INDEX idx_generated_data_hash ON schema_name.generated_data USING HASH (varchar1);

@@ -1,0 +1,1 @@
+CREATE INDEX idx_generated_data_composite ON schema_name.generated_data (int1, int2, timestamp);
